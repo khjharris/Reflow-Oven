@@ -2,7 +2,7 @@
  *  the two relays are grounded to the arduino ground pins and connected to analog pins
  *  five and four respectively. 
  *  
- *  -- June 13th 2016, Rev 1.0, Kenwood Harris Jr.
+ *  -- June 13th 2016, Rev 1.1, Kenwood Harris Jr.
  */
 
 
@@ -17,7 +17,7 @@ void setup() {
   Serial.begin(9600);
   pinMode(testpin1, OUTPUT);
   pinMode(testpin2, OUTPUT);
-  Serial.println("Please type 'o' or 't' to select relay");
+  Serial.println("Please type 'b' or 't' to select relay");
   
 }
 
