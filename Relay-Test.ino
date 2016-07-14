@@ -2,7 +2,7 @@
  *  the two relays are grounded to the arduino ground pins and connected to analog pins
  *  five and four respectively. 
  *  
- *  -- June 13th 2016, Kenwood Harris Jr.
+ *  -- June 13th 2016, Rev 1.0, Kenwood Harris Jr.
  */
 
 
