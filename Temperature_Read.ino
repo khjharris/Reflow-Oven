@@ -104,7 +104,7 @@ void setup() {
   char *Temperature_Log = "Temp";
   strcpy(filstr, Temperature_Log);    //Uses strcpy(buffer, string to concatenate)
   strcat(filstr, filename);   //Uses strcat(buffer, strin to concatenate), follows strcpy
-  strcat(filstr, ".txt"); //
+  strcat(filstr, ".txt"); //Uses the same format adds .txt
   Serial.println("Filename: ");
   Serial.print(filstr);
   SD.mkdir(filstr);   //Final filename will be TempXXXX.txt
@@ -146,11 +146,9 @@ void loop() {
   //Reads setting state
   bool topstate = false;
   bool bottomstate = false;     //Stores the state of the mode pins
-
   if (Serial.read(topset) = 1){
   topstate = true;
   }
-
   if (Serial.read(bottomset) = 1){
     bottomstate = true;
   }
@@ -164,7 +162,9 @@ void loop() {
     testBottom();
   }
 
-  for (size_t i = 0; i = heatTime/200 ; i++) {
+
+//Loops for heatime divided by sample rate, is not exactly acurate
+  for (size_t i = 0; i = heatTime/2000 ; i++) {
     //String buffer for writing to SD Card
     char tempvalue = "";
 
