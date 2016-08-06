@@ -14,16 +14,22 @@ Kenwood Harris Jr., Rev 1.0, August 5, 2016
 RTC_DS3231 rtc;
 
 //Sets the top and bottom relay pins
-#define TopElement 5
-#define BottomElement 6
+#define TopElement 10
+#define BottomElement 11
+
+#define topset  12    //If pin is high top is set to turn on
+#define bottomset 13    //If pin is bottom is set to turn on
 
 char masterfile = "";
 
 //Sets the SD card chip select pin
 #define SdChipselect 4
 
+//Global Variable for Duration
+int heatTime;
+
 //Sets the thermocouple pins
-int thermoDO = 4;
+int thermoDO = 9;
 int thermoCS = 5;
 int thermoCLK = 6;
 MAX6675 thermocouple(thermoCLK, thermoCS, thermoDO);
@@ -83,6 +89,10 @@ void setup() {
   Serial.begin(9600);
   delay(3000);
 
+  //Sets up pins for mode
+  pinMode(topset, INPUT);
+  pinMode(bottomset, INPUT);
+
   //Sets filename
   Serial.println("Please input filename of six characters");
   delay(3000);
@@ -135,31 +145,69 @@ void setup() {
   //Set up the relay pins as outputs
   pinMode(TopELement, OUTPUT);
   pinMode(BottomElement, OUTPUT);
+
+  //Sets global time Variable heatTime
+  Serial.println("Please select A for 2 min, B for 3 min C for five min, and D for ten min");
+  if (Serial.available() = 1){
+    if (Serial.read() == A){
+      heatTime = 120000;
+    } else if (serial.read() == B){
+      heatTime = 180000;
+    }else if (Serial.read() == C){
+      heatTime = 300000;
+    }else if (Serial.read() == D){
+      heatTime = 600000;
+    }
+    }
+  }
 }
 
 void loop() {
-  //String buffer for writing to SD Card
-  char tempvalue = "";
+  
+  //Reads setting state
+  bool topstate = false;
+  bool bottomstate = false;     //Stores the state of the mode pins
 
-  //Sets the buffer to the temperature of the Oven
-  tempvalue = thermocouple.readFahrenheit();
-
-  //Opens the masterfile, and logs temperature and time
-  File temperaturefile = SD.open(masterfile, FILE_WRITE);
-  if (temperaturefile){
-    temperaturefile.println(tempvalue);
-    temperaturefile.print(",");
-    temperaturefile.print(" ");
-    temperaturefile.print(now.hour);
-    temperaturefile.print(":");
-    temperaturefile.print(now.minute);
-    temperaturefile.print(":");
-    temperaturefile.print(now.second);
-    temperaturefile.close();
+  if (Serial.read(topset) = 1){
+  topstate = true;
   }
 
-  delay(2000);
+  if (Serial.read(bottomset) = 1){
+    bottomstate = true;
+  }
 
+  //Sets up oven
+  if (topstate && bottomstate == true) {
+    testOven();   //Duration still needed
+  } else if (topstate == true) {
+    testTop();    //Duration still needed
+  } else {
+    testBottom();   //Duration still needed
+  }
+
+  for (size_t i = 0; i = heatTime/200 ; i++) {
+    //String buffer for writing to SD Card
+    char tempvalue = "";
+
+    //Sets the buffer to the temperature of the Oven
+    tempvalue = thermocouple.readFahrenheit();
+
+    //Opens the masterfile, and logs temperature and time
+    File temperaturefile = SD.open(masterfile, FILE_WRITE);
+    if (temperaturefile){
+      temperaturefile.println(tempvalue);
+      temperaturefile.print(",");
+      temperaturefile.print(" ");
+      temperaturefile.print(now.hour);
+      temperaturefile.print(":");
+      temperaturefile.print(now.minute);
+      temperaturefile.print(":");
+      temperaturefile.print(now.second);
+      temperaturefile.close();
+    }
+
+  delay(2000);
+}
 
 
 }
