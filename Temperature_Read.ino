@@ -157,7 +157,7 @@ void loop() {
 
   //Sets up oven
   if (topstate && bottomstate == true) {
-    testOven();   
+    testOven();
   } else if (topstate == true) {
     testTop();
   } else {
@@ -186,9 +186,10 @@ void loop() {
     }
 
   delay(2000);
+
 }
 
-Turnoff():
-
-
+Turnoff();
+Serial.println("Logging has completed, please turn off oven")
+return;
 }
