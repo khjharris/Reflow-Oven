@@ -36,50 +36,29 @@ MAX6675 thermocouple(thermoCLK, thermoCS, thermoDO);
 
 //To read thermocouple use thermocouple.readFahrenheit()
 
-//Turns the top element on for x duration in milliseconds
-void testTop(int duration) {
-  int dursec = duration * 1000;
-
-  Serial.println("Duration set for ");
-  Serial.print(dursec);
-  Serial.print(" seconds");
-
+//Turns the top element on for
+void testTop() {
   //Handels Relay
   digitalWrite(TopElement, HIGH);
-  delay(duration);
-  digitalWrite(TopElement, LOW);
 }
 
-//Turns the botttom element on for x duration in milliseconds
-void testBottom(int duration) {
-  int dursec = duration * 1000;
-
-  Serial.println("Duration set for ");
-  Serial.print(dursec);
-  Serial.print(" seconds");
-
-  //Handels Relay
+//Turns the botttom element
+void testBottom() {
+//Handels Relay
   digitalWrite(BottomElement, HIGH);
-  delay(duration);
-  digitalWrite(BottomElement, LOW);
 }
 
-//Turns on both the top and bottom elements for x duration in milliseconds
-void testOven(int duration) {
-  //Computes duration into seconds
-  int dursec = duration * 1000;
-
-  Serial.println("Duration set for ");
-  Serial.print(dursec);
-  Serial.print(" seconds");
-  Serial.println("Both Top and Bottom Elements ON");
-
+//Turns on both the top and bottom elements
+void testOven() {
   //Handels Relay
   digitalWrite(TopElement, HIGH);
   digitalWrite(BottomElement, HIGH);
-  delay(duration);
-  digitalWrite(TopElement, LOW);
-  digitalWrite(BottomElement, LOW);
+}
+
+//Turns off both elements
+void Turnoff(){
+  digitalWrite(TopElement, Low);
+  digitalWrite(BottomElement, Low);
 }
 
 
@@ -163,7 +142,7 @@ void setup() {
 }
 
 void loop() {
-  
+
   //Reads setting state
   bool topstate = false;
   bool bottomstate = false;     //Stores the state of the mode pins
@@ -178,11 +157,11 @@ void loop() {
 
   //Sets up oven
   if (topstate && bottomstate == true) {
-    testOven();   //Duration still needed
+    testOven();   
   } else if (topstate == true) {
-    testTop();    //Duration still needed
+    testTop();
   } else {
-    testBottom();   //Duration still needed
+    testBottom();
   }
 
   for (size_t i = 0; i = heatTime/200 ; i++) {
@@ -208,6 +187,8 @@ void loop() {
 
   delay(2000);
 }
+
+Turnoff():
 
 
 }
