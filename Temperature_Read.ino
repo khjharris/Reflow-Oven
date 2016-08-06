@@ -112,13 +112,13 @@ void setup() {
 
   //Creates file for logging
   char filstr[128];
-  char *Temperature_Log = "Temperature_Log ";
+  char *Temperature_Log = "Temp";
   strcpy(filstr, Temperature_Log);    //Uses strcpy(buffer, string to concatenate)
   strcat(filstr, filename);   //Uses strcat(buffer, strin to concatenate), follows strcpy
   strcat(filstr, ".txt"); //
   Serial.println("Filename: ");
   Serial.print(filstr);
-  SD.mkdir(filstr);   //Final filename will be Temperature_LogXXXXXX.txt
+  SD.mkdir(filstr);   //Final filename will be TempXXXX.txt
   filstr = masterfile; //Sets the file name to the masterfile name
 
 
